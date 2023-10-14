@@ -1,12 +1,12 @@
-node { 
-    stage('Build') { 
-        sh 'make' 
+node {
+    stage('Build') {
+        sh 'mvn -B -DskipTests clean package'
     }
     stage('Test') {
-        sh 'make check'
-        junit 'reports/**/*.xml' 
+        sh 'mvn test'
+        junit 'target/surefire-reports/*.xml'
     }
-    stage('Deploy') {
-        sh 'make publish' 
+    stage('Deliver') {
+        sh './jenkins/scripts/deliver.sh'
     }
 }
